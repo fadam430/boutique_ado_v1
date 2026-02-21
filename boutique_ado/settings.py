@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    'django.contrib.sites',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
 MIDDLEWARE = [
@@ -59,13 +66,36 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request',
+                'django.template.context_processors.request', # required alluth
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = [
+    
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by email
+    'allauth.account.auth_backends.AuthenticationBackend',
+    
+]
+
+SITE_ID = 1
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # During development, print emails to the console
+
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email' # Allow users to log in with either their username or email
+ACCOUNT_EMAIL_REQUIRED = True # Require email address during registration
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory' # Email verification is mandatory
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True # Require users to enter their email address twice during registration to prevent typos
+ACCOUNT_USERNAME_MIN_LENGTH = 4 # Minimum length for usernames
+LOGIN_URL = '/accounts/login/' # URL to redirect users to for login
+LOGIN_REDIRECT_URL = '/' # URL to redirect users to after successful login
+
 
 WSGI_APPLICATION = 'boutique_ado.wsgi.application'
 
