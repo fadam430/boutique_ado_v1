@@ -10,8 +10,24 @@ def all_products(request):
     products = Product.objects.all()
     query = None # Initialize query variable to None to avoid potential UnboundLocalError
     category = None # Initialize category variable to None to avoid potential UnboundLocalError
+    sort = None # Initialize sort variable to None to avoid potential UnboundLocalError
+    direction = None # Initialize direction variable to None to avoid potential UnboundLocalError
     
     if request.GET:
+        if 'sort' in request.GET:
+            sortkey = request.GET['sort']
+            sort = sortkey
+            if sortkey == 'name':
+                sortkey = 'lower_name' # Annotate the queryset with a new field 'lower_name' that contains the lowercase version of the product name to enable case-insensitive sorting by name
+                products = products.annotate(lower_name=Lower('name')) # Use the annotate() method to add the 'lower_name' field to the products queryset
+                
+            if 'direction' in request.GET:
+                direction = request.GET['direction']
+                if direction == 'desc':
+                    sortkey = f'-{sortkey}' # Prepend a '-' to the sortkey to indicate descending order in the order_by() method
+            products = products.order_by(sortkey) # Order the products queryset based on the sortkey
+                
+        
         if 'category' in request.GET:
             category = request.GET['category'].split(',') # Split the category string into a list of categories
             products = products.filter(category__name__in=category) # Filter the products queryset based on the selected categories
@@ -25,10 +41,14 @@ def all_products(request):
     
             queries = Q(name__icontains=query) | Q(description__icontains=query) # Use Q objects to perform a case-insensitive search on both the name and description fields
             products = products.filter(queries) # Filter the products queryset based on the search query
+            
+    current_sorting = f'{sort}_{direction}' # Create a string that represents the current sorting method and direction to use in the template for highlighting the active sorting option
+    
     context = {
-        'products': products,
+        'products': products, # Pass the filtered products queryset to the template context to display the search results
         'search_string': query, # Pass the search query to the template context to pre-fill the search input field with the user's search term
         'current_categories': category, # Pass the current categories to the template context to display the selected categories in the template
+        'current_sorting': current_sorting, # Pass the current sorting method and direction to the template context to highlight the active sorting option
     }
 
     return render(request, 'products/products.html', context)
