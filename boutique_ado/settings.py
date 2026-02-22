@@ -73,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request', # required alluth
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'bag.contexts.bag_contents', # bag contents context processor'
             ],
         },
     },
@@ -157,6 +158,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] # global static files dire
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # directory to store uploaded media files
 
+FREE_DELIVERY_THRESHOLD = 50
+STANDARD_DELIVERY_PERCENTAGE = 10
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
