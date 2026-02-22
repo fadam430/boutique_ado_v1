@@ -7,7 +7,7 @@ def view_bag(request):
     
     return render(request, 'bag/bag.html')
 
-def add_to_bag(request, item_id):
+def add_to_bag(request, item_id): # adding item to bag and how to handel the bag in session
     """ Add a quantity of the specified product to the shopping bag """
     
     quantity = int(request.POST.get('quantity'))
