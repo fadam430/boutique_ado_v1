@@ -21,6 +21,9 @@ def all_products(request):
                 sortkey = 'lower_name' # Annotate the queryset with a new field 'lower_name' that contains the lowercase version of the product name to enable case-insensitive sorting by name
                 products = products.annotate(lower_name=Lower('name')) # Use the annotate() method to add the 'lower_name' field to the products queryset
                 
+            if sortkey == 'category':
+                sortkey = 'category__name' # Use the double underscore notation to specify that we want to sort by the name field of the related Category model when sorting by category
+            
             if 'direction' in request.GET:
                 direction = request.GET['direction']
                 if direction == 'desc':
