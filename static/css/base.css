@@ -37,9 +37,10 @@ body {
     background: black;
     color: white;
 }
+
 .btn-outline-black {
     background: white;
-    color: black !important;
+    color: black !important; /* use important to override link colors for <a> elements */
     border: 1px solid black;
 }
 .btn-outline-black:hover,
@@ -80,10 +81,12 @@ body {
 	background: white;
 	z-index: -1;
 }
+
 a.category-badge > span.badge:hover {
     background: #212529 !important;
     color: #fff !important;
 }
+
 .btt-button {
     height: 42px;
     width: 42px;
@@ -91,17 +94,21 @@ a.category-badge > span.badge:hover {
     bottom: 10px;
     right: 10px;
 }
-.btt-link {
+
+.btt-link,
+.update-link,
+.remove-item {
     cursor: pointer;
 }
+
 
 /* -------------------------------- Media Queries */
 
 /* Slightly larger container on xl screens */
 @media (min-width: 1200px) {
-  .container {
+    .container {
     max-width: 80%;
-  }
+    }
 }
 
 /* fixed top navbar only on medium and up */
