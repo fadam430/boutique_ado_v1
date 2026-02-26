@@ -8,7 +8,8 @@ class OrderForm(forms.ModelForm):
                     'postcode', 'town_or_city', 'street_address1',
                     'street_address2', 'county')
     
-    def __init__(self, *args, **kwargs):  # Override init method to add placeholders and classes, remove auto-generated labels and set autofocus on first field
+    def __init__(self, *args, **kwargs):  # Override init method to add placeholders and classes, remove auto-generated labels and set autofocus on first field 
+                                            # this is  Django form best practice to ensure the form is user-friendly and visually consistent with the rest of the site.
         """
         Add placeholders and classes, remove auto-generated
         labels and set autofocus on first field
@@ -26,8 +27,8 @@ class OrderForm(forms.ModelForm):
             'county': 'County',
         }
 
-        self.fields['full_name'].widget.attrs['autofocus'] = True # Set autofocus on first field
-        for field in self.fields:
+        self.fields['full_name'].widget.attrs['autofocus'] = True         # Set autofocus on first field
+        for field in self.fields:                                       # Loop through fields to add placeholders and classes, and remove labels
             if self.fields[field].required:
                 placeholder = f'{placeholders[field]} *'
             else:
