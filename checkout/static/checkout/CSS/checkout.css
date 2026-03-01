@@ -33,8 +33,18 @@
 #payment-form .form-control,
 #card-element {
     color: #000;
+}
+
+select:invalid,
+select option[value=""] {
+    color: #aab7c4 !important;
+}
+
+select, select option {
+    color: #000;
     border: 1px solid #000;
 }
+
 #loading-overlay {
 	display: none;
 	position: fixed;

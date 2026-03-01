@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'products',
     'bag',
     'checkout',
+    'django_countries', # for country field in checkout app
     
     # any other apps you create
     'crispy_forms',
